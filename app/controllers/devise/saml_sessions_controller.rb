@@ -4,8 +4,9 @@ class Devise::SamlSessionsController < Devise::SessionsController
   include DeviseSamlAuthenticatable::SamlConfig
   unloadable
   before_filter :get_saml_config
+
   def new
-    resource = build_resource
+    resource = resource_class.new(sign_in_params)
     request = Onelogin::Saml::Authrequest.new
     action = request.create(@saml_config)
     redirect_to action
